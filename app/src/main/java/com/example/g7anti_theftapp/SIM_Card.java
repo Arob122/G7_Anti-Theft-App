@@ -5,9 +5,11 @@ import java.util.UUID;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +32,11 @@ public class SIM_Card extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.card);
+
+
+
+
+
 
         get = findViewById(R.id.button3);
         num=findViewById(R.id.Number);
@@ -69,6 +76,7 @@ public class SIM_Card extends AppCompatActivity {
         if (requestCode == PHONE_NUMBER_HINT && resultCode == RESULT_OK) {
             Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
             final String phoneNumber = credential.getId();
+
             num.setText(phoneNumber);
         }
     }

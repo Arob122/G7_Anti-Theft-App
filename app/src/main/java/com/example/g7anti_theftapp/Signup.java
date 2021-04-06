@@ -1,8 +1,14 @@
 package com.example.g7anti_theftapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,9 +44,36 @@ public class Signup extends AppCompatActivity {
                     if(pass.equals(repass)){
                         Boolean checkuser = DB.checkusername(user);
                         if(checkuser==false){
-                            Boolean insert = DB.insertData(user, pass);
+                            TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                            String serialNumber ="";
+                            try {
+                                serialNumber = tManager.getSimSerialNumber();
+                                Log.d("CheckService class","Read "+ serialNumber);
+                            } catch (Exception e) {
+                                Log.d("CheckService class","Exception");
+                            }
+                            Boolean insert = DB.insertData(user, pass,serialNumber);
                             if(insert==true){
                                 Toast.makeText(Signup.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+
+                                //Deem
+
+                                SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
+                                editor.putString("serialNumber", serialNumber);
+                                editor.putString("username", user);
+                                editor.putString("password", pass);                                editor.apply();
+                                //Deem start detecting any change on the card
+                                //startService(new Intent(Signup.this, CheckService.class));
+                                //stopService(new Intent(this, CheckService.class));
+                                IntentFilter intentFilter = new IntentFilter();
+                                //intentFilter.addAction(action.SIM_STATE_CHANGED);
+
+                                SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
+                                registerReceiver(simChangedReceiver, intentFilter);
+                                //end detecting
+                                //Deem
+
+
                                 Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                                 startActivity(intent);
                             }else{

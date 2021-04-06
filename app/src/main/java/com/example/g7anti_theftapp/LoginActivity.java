@@ -3,6 +3,8 @@ package com.example.g7anti_theftapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +37,19 @@ public class LoginActivity extends AppCompatActivity {
                 else{
                     Boolean checkuserpass = DB.checkusernamepassword(user, pass);
                     if(checkuserpass==true){
-                        Toast.makeText(LoginActivity.this, "Sign in successfull", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
+
+                        //Deem
+                        String serialNumber = DB.getSerialNumber(user, pass);
+                        SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
+                        editor.putString("serialNumber", serialNumber);
+                        editor.putString("username", user);
+                        editor.putString("password", pass);
+                        editor.apply();
+                        IntentFilter intentFilter = new IntentFilter();
+                        SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
+                        registerReceiver(simChangedReceiver, intentFilter);
+                        //Deem
                         Intent intent  = new Intent(getApplicationContext(), SIM_Card.class);
                         startActivity(intent);
                     }else{
