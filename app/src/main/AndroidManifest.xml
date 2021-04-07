@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.g7anti_theftapp">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission
-        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -19,6 +20,7 @@
         android:theme="@style/Theme.Antitheft">
         <activity android:name=".Email"></activity>
         <activity android:name=".CheckAuthintication" />
+        <activity android:name=".Homepage"></activity>
         <activity android:name=".Signup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,8 +29,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-
-        <activity android:name=".BootReceiver" />
         <activity
             android:name=".DBHelper"
             tools:ignore="Instantiatable" />
@@ -46,17 +46,6 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-
-
-        <receiver android:name=".BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name= "android.intent.QUICKBOOT_POWERON"/>
-            </intent-filter>
-        </receiver>
-
-
-
         <receiver
             android:name=".SimChangedReceiver"
             android:enabled="true"
@@ -64,11 +53,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.SIM_STATE_CHANGED" />
             </intent-filter>
-
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
-
-
-
     </application>
 
 </manifest>
