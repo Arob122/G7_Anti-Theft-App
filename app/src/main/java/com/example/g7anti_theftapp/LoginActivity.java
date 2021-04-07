@@ -50,8 +50,9 @@ public class LoginActivity extends AppCompatActivity {
                         SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
                         registerReceiver(simChangedReceiver, intentFilter);
                         //Deem
-                        Intent intent  = new Intent(getApplicationContext(), SIM_Card.class);
+                        Intent intent  = new Intent(getApplicationContext(), Homepage.class);
                         startActivity(intent);
+                        finish();
                     }else{
                         Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     }

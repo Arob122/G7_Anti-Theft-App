@@ -31,6 +31,24 @@ public class Signup extends AppCompatActivity {
         signin = (Button) findViewById(R.id.btnsignin);
         DB = new DBHelper(this);
 
+        SharedPreferences prefs = getSharedPreferences("SIM_State", MODE_PRIVATE);
+        String usernameOld = prefs.getString("username", "");//"No name defined" is the default value.
+        String passwordOld = prefs.getString("password", "");//"No name defined" is the default value.
+        Log.d("Check",usernameOld);
+        Log.d("Check",passwordOld);
+
+        if(!usernameOld.equals("")&&!passwordOld.equals("")){
+            Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(),Homepage.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+
+
+
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +59,8 @@ public class Signup extends AppCompatActivity {
                 if(user.equals("")||pass.equals("")||repass.equals(""))
                     Toast.makeText(Signup.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 else{
+
+
                     if(pass.equals(repass)){
                         Boolean checkuser = DB.checkusername(user);
                         if(checkuser==false){
@@ -57,25 +77,19 @@ public class Signup extends AppCompatActivity {
                                 Toast.makeText(Signup.this, "Registered successfully", Toast.LENGTH_SHORT).show();
 
                                 //Deem
-
                                 SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
                                 editor.putString("serialNumber", serialNumber);
                                 editor.putString("username", user);
-                                editor.putString("password", pass);                                editor.apply();
-                                //Deem start detecting any change on the card
-                                //startService(new Intent(Signup.this, CheckService.class));
-                                //stopService(new Intent(this, CheckService.class));
+                                editor.putString("password", pass);
+                                editor.apply();
                                 IntentFilter intentFilter = new IntentFilter();
-                                //intentFilter.addAction(action.SIM_STATE_CHANGED);
-
                                 SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
                                 registerReceiver(simChangedReceiver, intentFilter);
                                 //end detecting
                                 //Deem
-
-
-                                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                                Intent intent = new Intent(getApplicationContext(),Homepage.class);
                                 startActivity(intent);
+                                finish();
                             }else{
                                 Toast.makeText(Signup.this, "Registration failed", Toast.LENGTH_SHORT).show();
                             }

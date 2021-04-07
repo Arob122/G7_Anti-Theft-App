@@ -50,6 +50,7 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 Log.d("SimStateListener","Base "+ SIM_Number);
                 if (!SIM_Number.equals(serialNumber_New)){
                     Log.d("SimStateListener","Changed");
+                    Toast.makeText(context, "تم ملاحظة حالة غير طبيعية يرجى إعادة التسجيل", Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(context, CheckAuthintication.class));
                 }
                 else
