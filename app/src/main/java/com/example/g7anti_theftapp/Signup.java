@@ -1,12 +1,21 @@
 package com.example.g7anti_theftapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -14,11 +23,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class Signup extends AppCompatActivity {
 
     EditText username, password, repassword;
     Button signup, signin;
     DBHelper DB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,19 +46,16 @@ public class Signup extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("SIM_State", MODE_PRIVATE);
         String usernameOld = prefs.getString("username", "");//"No name defined" is the default value.
         String passwordOld = prefs.getString("password", "");//"No name defined" is the default value.
-        Log.d("Check",usernameOld);
-        Log.d("Check",passwordOld);
+        Log.d("Check", usernameOld);
+        Log.d("Check", passwordOld);
 
-        if(!usernameOld.equals("")&&!passwordOld.equals("")){
+        if (!usernameOld.equals("") && !passwordOld.equals("")) {
             Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(),Homepage.class);
+            Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);
+            getLocation(getApplicationContext());
             finish();
         }
-
-
-
-
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -56,24 +65,24 @@ public class Signup extends AppCompatActivity {
                 String pass = password.getText().toString();
                 String repass = repassword.getText().toString();
 
-                if(user.equals("")||pass.equals("")||repass.equals(""))
+                if (user.equals("") || pass.equals("") || repass.equals(""))
                     Toast.makeText(Signup.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
-                else{
+                else {
 
 
-                    if(pass.equals(repass)){
+                    if (pass.equals(repass)) {
                         Boolean checkuser = DB.checkusername(user);
-                        if(checkuser==false){
+                        if (checkuser == false) {
                             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                            String serialNumber ="";
+                            String serialNumber = "";
                             try {
                                 serialNumber = tManager.getSimSerialNumber();
-                                Log.d("CheckService class","Read "+ serialNumber);
+                                Log.d("CheckService class", "Read " + serialNumber);
                             } catch (Exception e) {
-                                Log.d("CheckService class","Exception");
+                                Log.d("CheckService class", "Exception");
                             }
-                            Boolean insert = DB.insertData(user, pass,serialNumber);
-                            if(insert==true){
+                            Boolean insert = DB.insertData(user, pass, serialNumber);
+                            if (insert == true) {
                                 Toast.makeText(Signup.this, "Registered successfully", Toast.LENGTH_SHORT).show();
 
                                 //Deem
@@ -87,20 +96,20 @@ public class Signup extends AppCompatActivity {
                                 registerReceiver(simChangedReceiver, intentFilter);
                                 //end detecting
                                 //Deem
-                                Intent intent = new Intent(getApplicationContext(),Homepage.class);
+                                Intent intent = new Intent(getApplicationContext(), Homepage.class);
                                 startActivity(intent);
                                 finish();
-                            }else{
+                            } else {
                                 Toast.makeText(Signup.this, "Registration failed", Toast.LENGTH_SHORT).show();
                             }
-                        }
-                        else{
+                        } else {
                             Toast.makeText(Signup.this, "User already exists! please sign in", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(Signup.this, "Passwords not matching", Toast.LENGTH_SHORT).show();
                     }
-                } }
+                }
+            }
         });
 
         signin.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +119,93 @@ public class Signup extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
+
+
+    @SuppressLint("MissingPermission")
+    public void getLocation(Context context) {
+        Log.d("SimStateListener", "inside method 1");
+        try {
+
+            LocationManager locationMangaer = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            LocationListener locationListener = new MyLocationListener();
+            Location location = locationMangaer.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.d("SimStateListener", "inside method 2 location" + location);
+            Location loc = getLastKnownLocation(locationMangaer);
+            locationMangaer.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+
+            Location location2 = locationMangaer.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.d("SimStateListener", "inside method 2 location" + location2);
+            double latitude = 0;
+            double longitude = 0;
+            latitude = loc.getLatitude();
+            longitude = loc.getLongitude();
+            Log.d("SimStateListener", "inside method 2 location latitude" + latitude + "longitude"+longitude);
+
+
+            boolean flag = displayGpsStatus(context);
+            if (flag) {
+                locationMangaer.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+
+            } else {
+            }
+
+        } catch (Exception e) {
+            Log.d("SimStateListener", "inside method 2 location exception" + e.toString());
+        }
+
+    }
+
+    /*----Method to Check GPS is enable or disable ----- */
+    private Boolean displayGpsStatus(Context context) {
+        Log.d("SimStateListener", "inside method 2");
+
+        ContentResolver contentResolver = context.getContentResolver();
+        boolean gpsStatus = Settings.Secure.isLocationProviderEnabled(contentResolver, LocationManager.GPS_PROVIDER);
+        if (gpsStatus) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    private Location getLastKnownLocation(LocationManager mLocationManager) {
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+
+
+
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            Log.d("SimStateListener","last known location, provider: %s, location: "+ provider);
+
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null
+                    || l.getAccuracy() < bestLocation.getAccuracy()) {
+                Log.d("SimStateListener","found best last known location:"+ l);
+                bestLocation = l;
+            }
+        }
+        if (bestLocation == null) {
+            return null;
+        }
+        return bestLocation;
+    }
+
+
+
 }

@@ -1,9 +1,14 @@
 package com.example.g7anti_theftapp;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -45,6 +50,9 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 Log.d("SimStateListener", serialNumber_New);
                 Toast.makeText(context, serialNumber_New, Toast.LENGTH_LONG).show();
 
+                //getLocation(context);
+
+
                 SharedPreferences prefs = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
                 String SIM_Number = prefs.getString("serialNumber", "00000000000");//"No name defined" is the default value.
                 Log.d("SimStateListener","Base "+ SIM_Number);
@@ -61,3 +69,4 @@ public class SimChangedReceiver extends BroadcastReceiver {
     }
 
 }
+
