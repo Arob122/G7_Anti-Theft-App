@@ -22,6 +22,10 @@ public class SimChangedReceiver extends BroadcastReceiver {
 
         TelephonyManager telephoneMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int simState = telephoneMgr.getSimState();
+        //Nada's code
+        String ss=telephoneMgr.getSimSerialNumber();
+        //Nada's code
+
 
         switch (simState) {
             case TelephonyManager.SIM_STATE_ABSENT:
