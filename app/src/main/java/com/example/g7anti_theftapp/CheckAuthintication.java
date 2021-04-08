@@ -12,10 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class CheckAuthintication extends AppCompatActivity {
     EditText username, password;
     Button btnlogin;
     DBHelper DB;
+    Timer timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,15 @@ public class CheckAuthintication extends AppCompatActivity {
         btnlogin = (Button) findViewById(R.id.btnsignin1);
         DB = new DBHelper(this);
 
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(CheckAuthintication.this, lockScreen.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 60000);
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

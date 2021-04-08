@@ -46,14 +46,20 @@ public class Signup extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("SIM_State", MODE_PRIVATE);
         String usernameOld = prefs.getString("username", "");//"No name defined" is the default value.
         String passwordOld = prefs.getString("password", "");//"No name defined" is the default value.
+        boolean lock = prefs.getBoolean("lock", false);//"No name defined" is the default value.
         Log.d("Check", usernameOld);
         Log.d("Check", passwordOld);
 
+        if (lock){
+            Intent intent = new Intent(getApplicationContext(), lockScreen.class);
+            startActivity(intent);
+            finish();
+        }
         if (!usernameOld.equals("") && !passwordOld.equals("")) {
             Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);
-            getLocation(getApplicationContext());
+           // getLocation(getApplicationContext());
             finish();
         }
 
