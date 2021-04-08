@@ -1,7 +1,9 @@
 package com.example.g7anti_theftapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -26,15 +29,22 @@ import android.widget.Toast;
 import java.util.List;
 
 public class Signup extends AppCompatActivity {
+    private static final int BOOT_PERMISSION_CODE = 100;
+    private static final int MY_PERMISSION_REQUEST_CODE_BOOT_COMPLETED =101 ;
+    private static final int MY_PERMISSION_REQUEST_CODE_PHONE_STATE =100 ;
+    private static final int PERMISSION_READ_STATE =123;
+
 
     EditText username, password, repassword;
     Button signup, signin;
     DBHelper DB;
+    String strPhoneType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        askPermissionAndGetSIM();
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -55,13 +65,13 @@ public class Signup extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if (!usernameOld.equals("") && !passwordOld.equals("")) {
+        /*if (!usernameOld.equals("") && !passwordOld.equals("")) {
             Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);
            // getLocation(getApplicationContext());
             finish();
-        }
+        }*/
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +112,16 @@ public class Signup extends AppCompatActivity {
                                 registerReceiver(simChangedReceiver, intentFilter);
                                 //end detecting
                                 //Deem
+
+                                //Nada
+                                //asking permission
+                              /* checkPermission(
+                                        Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                                        BOOT_PERMISSION_CODE);*/
+                                //Nada
+                                //end permission
+
+
                                 Intent intent = new Intent(getApplicationContext(), Homepage.class);
                                 startActivity(intent);
                                 finish();
@@ -214,4 +234,103 @@ public class Signup extends AppCompatActivity {
 
 
 
+
+
+    //Nada's functions
+    // Function to check and request permission.
+   /*public void checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(Signup.this, permission)
+                == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(Signup.this,
+                    new String[] { permission },
+                    requestCode);
+        }
+        else {
+            Toast.makeText(Signup.this,
+                    "Permission already granted",
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+    // This function is called when the user accepts or decline the permission.
+    // Request Code is used to check which permission called this function.
+    // This request code is provided when the user is prompt for permission.
+
+   @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super
+                .onRequestPermissionsResult(requestCode,
+                        permissions,
+                        grantResults);
+
+        if (requestCode == BOOT_PERMISSION_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(Signup.this,
+                        "Camera Permission Granted",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+            else {
+                Toast.makeText(Signup.this,
+                        "Camera Permission Denied",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+    }*/
+
+
+
+    //Nada
+    private void askPermissionAndGetSIM(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){//23
+            //check if we have READ_PHONE_STATE permission
+            int readPhoneStatePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+            int readBootPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED);
+
+            if (readBootPermission != PackageManager.PERMISSION_GRANTED){
+                this.requestPermissions(new String[] {Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                        MY_PERMISSION_REQUEST_CODE_BOOT_COMPLETED);
+            }
+
+            if (readPhoneStatePermission!= PackageManager.PERMISSION_GRANTED ){
+                //if there is no permission, prompt the user to allow
+                this.requestPermissions(new String[] {Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                        MY_PERMISSION_REQUEST_CODE_PHONE_STATE);
+                return;
+            }
+        }
+       //
+        getSIM();
+    }
+
+
+    private String getSIM() {
+
+        Log.d("CheckService class", "start Method");
+        TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String serialNumber = "";
+        //TelephonyManager.registerPhoneStateListener
+        try {
+
+            serialNumber = tManager.getSimSerialNumber();
+            Log.d("CheckService class", "Read " + serialNumber);
+        } catch (Exception e) {
+            Log.d("CheckService class", "Exception");
+        }
+
+        return serialNumber;
+    }
+
+
 }
+
