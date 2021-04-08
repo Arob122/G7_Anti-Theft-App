@@ -34,16 +34,16 @@
         android:id="@+id/btnsignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/repassword"/>
+        android:layout_below="@+id/repassword"
+        android:layout_marginTop="-4dp"
+        android:text="Register" />
 
     <Button
         android:id="@+id/btnsignin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Existing user! Go to Sign in page"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/btnsignup"/>
+        android:layout_below="@+id/btnsignup"
+        android:layout_marginTop="10dp"
+        android:text="Existing user! Go to Sign in page" />
 
 </RelativeLayout>

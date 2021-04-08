@@ -27,6 +27,10 @@ public class SimChangedReceiver extends BroadcastReceiver {
 
         TelephonyManager telephoneMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int simState = telephoneMgr.getSimState();
+        //Nada's code
+        String ss=telephoneMgr.getSimSerialNumber();
+        //Nada's code
+
 
         switch (simState) {
             case TelephonyManager.SIM_STATE_ABSENT:
@@ -59,7 +63,9 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 if (!SIM_Number.equals(serialNumber_New)){
                     Log.d("SimStateListener","Changed");
                     Toast.makeText(context, "تم ملاحظة حالة غير طبيعية يرجى إعادة التسجيل", Toast.LENGTH_SHORT).show();
-                    context.startActivity(new Intent(context, CheckAuthintication.class));
+                    Intent intent1 = new Intent(context, CheckAuthintication.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent1);
                 }
                 else
                     Log.d("SimStateListener","Same");
