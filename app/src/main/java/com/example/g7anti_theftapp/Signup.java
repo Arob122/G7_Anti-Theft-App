@@ -310,7 +310,7 @@ public class Signup extends AppCompatActivity {
             }
         }
        //
-        getSIM();
+        this.getSIM();
     }
 
 

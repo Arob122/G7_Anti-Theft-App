@@ -54,6 +54,7 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".SimChangedReceiver"
             android:enabled="true"
@@ -68,6 +69,10 @@
                 <action android:name="android.intent.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+
+
+
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
