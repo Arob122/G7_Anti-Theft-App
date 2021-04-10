@@ -32,6 +32,21 @@ public class SimChangedReceiver extends BroadcastReceiver {
         //Nada's code
 
 
+        Toast.makeText(context, "Enter receiver", Toast.LENGTH_SHORT).show();
+
+
+        if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)){
+
+            // +++ Do Operation Here +++
+            Toast.makeText(context, "Enter receiver inside if", Toast.LENGTH_SHORT).show();
+            String serialNumber_New = telephoneMgr.getSimSerialNumber();
+            Log.d("SimStateListener", serialNumber_New);
+            SharedPreferences prefs = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
+            String SIM_Number = prefs.getString("serialNumber", "00000000000");//"No name defined" is the default value.
+            Log.d("SimStateListener","Base "+ SIM_Number);
+        }
+
+
         switch (simState) {
             case TelephonyManager.SIM_STATE_ABSENT:
                 Log.d("SimStateListener", "Sim State absent");
