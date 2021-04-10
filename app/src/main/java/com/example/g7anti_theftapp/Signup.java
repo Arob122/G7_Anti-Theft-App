@@ -46,7 +46,7 @@ public class Signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        askPermissionAndGetSIM();
+        //askPermissionAndGetSIM();
 
         Email = (EditText) findViewById(R.id.Email);
         password = (EditText) findViewById(R.id.password);
@@ -62,18 +62,13 @@ public class Signup extends AppCompatActivity {
         Log.d("Check", EmailOld);
         Log.d("Check", passwordOld);
 
-        if (lock){
-            Intent intent = new Intent(getApplicationContext(), lockScreen.class);
-            startActivity(intent);
-            finish();
-        }
-        /*if (!usernameOld.equals("") && !passwordOld.equals("")) {
+        if (!usernameOld.equals("") && !passwordOld.equals("")) {
             Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);
-           // getLocation(getApplicationContext());
+            getLocation(getApplicationContext());
             finish();
-        }*/
+        }
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -125,16 +120,6 @@ public class Signup extends AppCompatActivity {
                                 registerReceiver(simChangedReceiver, intentFilter);
                                 //end detecting
                                 //Deem
-
-                                //Nada
-                                //asking permission
-                              /* checkPermission(
-                                        Manifest.permission.RECEIVE_BOOT_COMPLETED,
-                                        BOOT_PERMISSION_CODE);*/
-                                //Nada
-                                //end permission
-
-
                                 Intent intent = new Intent(getApplicationContext(), Homepage.class);
                                 startActivity(intent);
                                 finish();
@@ -258,103 +243,4 @@ public class Signup extends AppCompatActivity {
 
 
 
-
-
-    //Nada's functions
-    // Function to check and request permission.
-   /*public void checkPermission(String permission, int requestCode)
-    {
-        if (ContextCompat.checkSelfPermission(Signup.this, permission)
-                == PackageManager.PERMISSION_DENIED) {
-
-            // Requesting the permission
-            ActivityCompat.requestPermissions(Signup.this,
-                    new String[] { permission },
-                    requestCode);
-        }
-        else {
-            Toast.makeText(Signup.this,
-                    "Permission already granted",
-                    Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
-    // This function is called when the user accepts or decline the permission.
-    // Request Code is used to check which permission called this function.
-    // This request code is provided when the user is prompt for permission.
-
-   @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        super
-                .onRequestPermissionsResult(requestCode,
-                        permissions,
-                        grantResults);
-
-        if (requestCode == BOOT_PERMISSION_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(Signup.this,
-                        "Camera Permission Granted",
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
-            else {
-                Toast.makeText(Signup.this,
-                        "Camera Permission Denied",
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
-
-    }*/
-
-
-
-    //Nada
-    private void askPermissionAndGetSIM(){
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){//23
-            //check if we have READ_PHONE_STATE permission
-            int readPhoneStatePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-            int readBootPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED);
-
-            if (readBootPermission != PackageManager.PERMISSION_GRANTED){
-                this.requestPermissions(new String[] {Manifest.permission.RECEIVE_BOOT_COMPLETED},
-                        MY_PERMISSION_REQUEST_CODE_BOOT_COMPLETED);
-            }
-
-            if (readPhoneStatePermission!= PackageManager.PERMISSION_GRANTED ){
-                //if there is no permission, prompt the user to allow
-                this.requestPermissions(new String[] {Manifest.permission.RECEIVE_BOOT_COMPLETED},
-                        MY_PERMISSION_REQUEST_CODE_PHONE_STATE);
-                return;
-            }
-        }
-       //
-        getSIM();
-    }
-
-
-    private String getSIM() {
-
-        Log.d("CheckService class", "start Method");
-        TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String serialNumber = "";
-        //TelephonyManager.registerPhoneStateListener
-        try {
-
-            serialNumber = tManager.getSimSerialNumber();
-            Log.d("CheckService class", "Read " + serialNumber);
-        } catch (Exception e) {
-            Log.d("CheckService class", "Exception");
-        }
-
-        return serialNumber;
-    }
-
-
 }
-

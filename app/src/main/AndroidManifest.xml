@@ -26,10 +26,8 @@
         <activity android:name=".Email" />
         <activity android:name=".CheckAuthintication" />
         <activity android:name=".Homepage" />
-        <activity android:name=".SimChangedReceiver"
-            tools:ignore="Instantiatable" />
-        <activity android:name=".linker"
-            tools:ignore="DuplicateActivity" />
+        <activity android:name=".SimChangedReceiver" />
+        <activity android:name=".linker"/>
         <activity android:name=".Signup">
 
             <intent-filter>
@@ -48,12 +46,7 @@
         <activity
             android:name=".SIM_Card"
             tools:ignore="Instantiatable" />
-        <activity
-            android:name=".ConfirmPassword"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name=".forgetpassword"
-            tools:ignore="Instantiatable" />
+
         <service android:name=".CheckService" />
 
         <receiver android:name=".ServiceReceiver">
