@@ -27,6 +27,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Signup extends AppCompatActivity {
     private static final int BOOT_PERMISSION_CODE = 100;
@@ -35,7 +37,7 @@ public class Signup extends AppCompatActivity {
     private static final int PERMISSION_READ_STATE =123;
 
 
-    EditText username, password, repassword;
+    EditText Email, password, repassword;
     Button signup, signin;
     DBHelper DB;
     String strPhoneType="";
@@ -46,7 +48,7 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         askPermissionAndGetSIM();
 
-        username = (EditText) findViewById(R.id.username);
+        Email = (EditText) findViewById(R.id.Email);
         password = (EditText) findViewById(R.id.password);
         repassword = (EditText) findViewById(R.id.repassword);
         signup = (Button) findViewById(R.id.btnsignup);
@@ -54,10 +56,10 @@ public class Signup extends AppCompatActivity {
         DB = new DBHelper(this);
 
         SharedPreferences prefs = getSharedPreferences("SIM_State", MODE_PRIVATE);
-        String usernameOld = prefs.getString("username", "");//"No name defined" is the default value.
+        String EmailOld = prefs.getString("Email", "");//"No name defined" is the default value.
         String passwordOld = prefs.getString("password", "");//"No name defined" is the default value.
         boolean lock = prefs.getBoolean("lock", false);//"No name defined" is the default value.
-        Log.d("Check", usernameOld);
+        Log.d("Check", EmailOld);
         Log.d("Check", passwordOld);
 
         if (lock){
@@ -77,17 +79,28 @@ public class Signup extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = username.getText().toString();
+                String user = Email.getText().toString();
                 String pass = password.getText().toString();
                 String repass = repassword.getText().toString();
 
+
                 if (user.equals("") || pass.equals("") || repass.equals(""))
                     Toast.makeText(Signup.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                if (pass.length()<=7){
+                    password.setError("Password must be greater than 7 characters");
+
+                    return;
+                }
                 else {
 
 
                     if (pass.equals(repass)) {
-                        Boolean checkuser = DB.checkusername(user);
+                        if(!isEmailValid(user)){
+                            Email.setError("The email address is badly formatted");
+                        return;}
+
+
+                        Boolean checkuser = DB.checkEmail(user);
                         if (checkuser == false) {
                             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                             String serialNumber = "";
@@ -104,7 +117,7 @@ public class Signup extends AppCompatActivity {
                                 //Deem
                                 SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
                                 editor.putString("serialNumber", serialNumber);
-                                editor.putString("username", user);
+                                editor.putString("Email", user);
                                 editor.putString("password", pass);
                                 editor.apply();
                                 IntentFilter intentFilter = new IntentFilter();
@@ -148,7 +161,18 @@ public class Signup extends AppCompatActivity {
 
 
     }
-
+    /**
+     * method is used for checking valid email id format.
+     *
+     * @param email
+     * @return boolean true for valid false for invalid
+     */
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
     @SuppressLint("MissingPermission")
     public void getLocation(Context context) {

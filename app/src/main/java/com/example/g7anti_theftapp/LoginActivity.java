@@ -12,30 +12,38 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText username, password;
-    Button btnlogin;
+    EditText Email, password;
+    Button btnlogin,forget;
     DBHelper DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        username = (EditText) findViewById(R.id.username1);
+        Email = (EditText) findViewById(R.id.Email);
         password = (EditText) findViewById(R.id.password1);
         btnlogin = (Button) findViewById(R.id.btnsignin1);
         DB = new DBHelper(this);
+        forget=findViewById(R.id.forget);
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+         public void onClick(View v) {
+          Intent intent  = new Intent(getApplicationContext(), forgetpassword.class);
+          startActivity(intent);
+          finish(); }
 
+        });
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String user = username.getText().toString();
+                String user = Email.getText().toString();
                 String pass = password.getText().toString();
 
                 if(user.equals("")||pass.equals(""))
                     Toast.makeText(LoginActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 else{
-                    Boolean checkuserpass = DB.checkusernamepassword(user, pass);
+                    Boolean checkuserpass = DB.checkEmailpassword(user, pass);
                     if(checkuserpass==true){
                         Toast.makeText(LoginActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
 
@@ -43,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                         String serialNumber = DB.getSerialNumber(user, pass);
                         SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
                         editor.putString("serialNumber", serialNumber);
-                        editor.putString("username", user);
+                        editor.putString("Email", user);
                         editor.putString("password", pass);
                         editor.apply();
                         IntentFilter intentFilter = new IntentFilter();
@@ -59,5 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 }
