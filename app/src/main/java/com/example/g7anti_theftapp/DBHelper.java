@@ -29,11 +29,14 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists users");
     }
 
-    public Boolean insertData(String username, String password, String SIM_serialNumber){
+    public Boolean insertData(String username, String password, String SIM_serialNumber,String status){
+
+
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues= new ContentValues();
         contentValues.put("username", username);
         contentValues.put("password", password);
+        contentValues.put("status", status);
         Log.d("getSerialNumber"," try "+  SIM_serialNumber);
         contentValues.put("SIM_serialNumber", SIM_serialNumber);
         long result = MyDB.insert("users", null, contentValues);
@@ -60,8 +63,8 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public String getSerialNumber(String username, String password){
-        SQLiteDatabase MyDB = this.getWritableDatabase();
+    public String getSerialNumber(){
+        /*SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users where username = ? and password = ?", new String[] {username,password});
         cursor.moveToFirst();
         String SIM_serialNumber="";
@@ -71,5 +74,77 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.d("getSerialNumber","Exception");
         }
        return SIM_serialNumber;
+
+*/
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users", null);
+        cursor.moveToFirst();
+        String SIM_serialNumber="";
+        try{
+            SIM_serialNumber = cursor.getString(cursor.getColumnIndex("SIM_serialNumber"));
+            Log.d("getSerialNumber",SIM_serialNumber);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","Exception");
+        }
+        return SIM_serialNumber;
     }
+
+    public String getName(){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select username from users", null);
+        cursor.moveToFirst();
+        String username="";
+        try{
+            username = cursor.getString(cursor.getColumnIndex("username"));
+            Log.d("getSerialNumber","username "+username);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","username Exception");
+        }
+        return username;
+    }
+
+    public String getPassword(){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select password from users", null);
+        cursor.moveToFirst();
+        String password="";
+        try{
+            password = cursor.getString(cursor.getColumnIndex("password"));
+            Log.d("getSerialNumber","password "+password);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","password Exception");
+        }
+        return password;
+    }
+
+    public String getUserStatus(){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select status from users", null);
+        cursor.moveToFirst();
+        String status="";
+        try{
+            status = cursor.getString(cursor.getColumnIndex("status"));
+            Log.d("getSerialNumber","status "+status);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","status Exception");
+        }
+        return status;
+    }
+
+    public void setSerialNumber(String SerialNumber,String userName){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users", null);
+        MyDB.execSQL("UPDATE users\n SET SIM_serialNumber = ? WHERE username = ?;",new String[] {SerialNumber,userName});
+    }
+
+    public void setStatus(String status,String userName){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users", null);
+        MyDB.execSQL("UPDATE users\n SET status = ? WHERE username = ?;",new String[] {status,userName});
+    }
+
 }

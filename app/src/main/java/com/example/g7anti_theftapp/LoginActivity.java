@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
 
                         //Deem
-                        String serialNumber = DB.getSerialNumber(user, pass);
+                        String serialNumber = DB.getSerialNumber();
                         SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
                         editor.putString("serialNumber", serialNumber);
                         editor.putString("username", user);
