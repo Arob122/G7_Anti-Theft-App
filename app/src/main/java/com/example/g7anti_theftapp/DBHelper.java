@@ -96,17 +96,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String getName(){
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("Select username from users", null);
+        Cursor cursor = MyDB.rawQuery("Select Email from users", null);
         cursor.moveToFirst();
-        String username="";
+        String Email="";
         try{
-            username = cursor.getString(cursor.getColumnIndex("username"));
-            Log.d("getSerialNumber","username "+username);
+            Email = cursor.getString(cursor.getColumnIndex("Email"));
+            Log.d("getSerialNumber","username "+Email);
 
         }catch(Exception e){
             Log.d("getSerialNumber","username Exception");
         }
-        return username;
+        return Email;
     }
 
     public String getPassword(){
@@ -139,16 +139,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return status;
     }
 
-    public void setSerialNumber(String SerialNumber,String userName){
+    public void setSerialNumber(String SerialNumber,String Email){
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users", null);
-        MyDB.execSQL("UPDATE users\n SET SIM_serialNumber = ? WHERE username = ?;",new String[] {SerialNumber,userName});
+        MyDB.execSQL("UPDATE users\n SET SIM_serialNumber = ? WHERE Email = ?;",new String[] {SerialNumber,Email});
     }
 
-    public void setStatus(String status,String userName){
+    public void setStatus(String status,String Email){
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users", null);
-        MyDB.execSQL("UPDATE users\n SET status = ? WHERE username = ?;",new String[] {status,userName});
+        MyDB.execSQL("UPDATE users\n SET status = ? WHERE Email = ?;",new String[] {status,Email});
     }
 
 }
