@@ -15,13 +15,18 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final String DBNAME = "Login.db";
+    private static final String COLUMN_USER_PASSWORD = "password";
+    private static final String TABLE_USER = "users";
+    private static final String COLUMN_USER_EMAIL = "Email";
+    ;
+
     public DBHelper(Context context) {
         super(context, "Login.db", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
-        MyDB.execSQL("create Table users(username TEXT primary key, password TEXT,SIM_serialNumber TEXT)");
+        MyDB.execSQL("create Table users(Email TEXT primary key, password TEXT,SIM_serialNumber TEXT)");
     }
 
     @Override
@@ -29,12 +34,10 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists users");
     }
 
-    public Boolean insertData(String username, String password, String SIM_serialNumber,String status){
-
-
+    public Boolean insertData(String Email, String password, String SIM_serialNumber, String status){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues= new ContentValues();
-        contentValues.put("username", username);
+        contentValues.put("Email", Email);
         contentValues.put("password", password);
         contentValues.put("status", status);
         Log.d("getSerialNumber"," try "+  SIM_serialNumber);
@@ -45,27 +48,28 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public Boolean checkusername(String username) {
+    public Boolean checkEmail(String Email) {
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("Select * from users where username = ?", new String[]{username});
+        Cursor cursor = MyDB.rawQuery("Select * from users where Email = ?", new String[]{Email});
         if (cursor.getCount() > 0)
             return true;
         else
             return false;
     }
 
-    public Boolean checkusernamepassword(String username, String password){
+
+    public Boolean checkEmailpassword(String Email, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("Select * from users where username = ? and password = ?", new String[] {username,password});
+        Cursor cursor = MyDB.rawQuery("Select * from users where Email = ? and password = ?", new String[] {Email,password});
         if(cursor.getCount()>0)
             return true;
         else
             return false;
     }
 
-    public String getSerialNumber(){
+    public String getSerialNumber(String Email, String password){
         /*SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users where username = ? and password = ?", new String[] {username,password});
+        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users where Email = ? and password = ?", new String[] {Email,password});
         cursor.moveToFirst();
         String SIM_serialNumber="";
         try{
@@ -87,7 +91,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }catch(Exception e){
             Log.d("getSerialNumber","Exception");
         }
-        return SIM_serialNumber;
+       return SIM_serialNumber;
     }
 
     public String getName(){

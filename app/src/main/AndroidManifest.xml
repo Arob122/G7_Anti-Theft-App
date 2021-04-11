@@ -14,7 +14,6 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,10 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Antitheft">
+        <activity android:name=".linker"></activity>
         <activity android:name=".lockScreen" />
         <activity android:name=".Email" />
         <activity android:name=".CheckAuthintication" />
         <activity android:name=".Homepage" />
+        <activity android:name=".SimChangedReceiver" />
+        <activity android:name=".linker"/>
         <activity android:name=".Signup">
 
             <intent-filter>
@@ -48,9 +50,10 @@
         <service android:name=".CheckService" />
 
         <receiver android:name=".ServiceReceiver">
-
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
         </receiver>
-
         <receiver
             android:name=".SimChangedReceiver"
             android:enabled="true"
@@ -65,8 +68,20 @@
                 <action android:name="android.intent.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter android:priority="1000">
+                <category android:name="android.intent.category.DEFAULT" />
 
-
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
