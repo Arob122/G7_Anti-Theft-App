@@ -62,7 +62,7 @@ public class Signup extends AppCompatActivity {
         Log.d("Check", EmailOld);
         Log.d("Check", passwordOld);
 
-        if (!EmailOld.equals("") && !passwordOld.equals("")) {
+        if (!usernameOld.equals("") && !passwordOld.equals("")) {
             Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);

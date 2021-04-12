@@ -16,6 +16,7 @@ import android.widget.Toast;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SimChangedReceiver extends BroadcastReceiver {
+    DBHelper DB;
 
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -30,11 +31,12 @@ public class SimChangedReceiver extends BroadcastReceiver {
         //Nada's code
         String ss=telephoneMgr.getSimSerialNumber();
         //Nada's code
+        DB = new DBHelper(context);
 
 
         try{
             SharedPreferences prefs2 = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
-            String SIM_Numbertry = prefs2.getString("serialNumber", "00000000000");//"No name defined" is the default value.
+            String SIM_Numbertry = DB.getSerialNumber();//prefs2.getString("serialNumber", "00000000000");//"No name defined" is the default value.
             Log.d("SimStateListener","Base "+ SIM_Numbertry);
             Toast.makeText(context, "Enter receiver inside if"+SIM_Numbertry, Toast.LENGTH_SHORT).show();
         }catch (Exception e){
@@ -75,8 +77,8 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 //getLocation(context);
 
 
-                SharedPreferences prefs = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
-                String SIM_Number = prefs.getString("serialNumber", "00000000000");//"No name defined" is the default value.
+               // SharedPreferences prefs = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
+                String SIM_Number =DB.getSerialNumber();// prefs.getString("serialNumber", "00000000000");//"No name defined" is the default value.
                 Log.d("SimStateListener","Base "+ SIM_Number);
                 if (!SIM_Number.equals(serialNumber_New)){
                     Log.d("SimStateListener","Changed");

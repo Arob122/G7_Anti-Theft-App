@@ -32,14 +32,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase MyDB, int i, int i1) {
         MyDB.execSQL("drop Table if exists users");
-
     }
 
-    public Boolean insertData(String Email, String password, String SIM_serialNumber){
+    public Boolean insertData(String Email, String password, String SIM_serialNumber, String status){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues= new ContentValues();
         contentValues.put("Email", Email);
         contentValues.put("password", password);
+        contentValues.put("status", status);
         Log.d("getSerialNumber"," try "+  SIM_serialNumber);
         contentValues.put("SIM_serialNumber", SIM_serialNumber);
         long result = MyDB.insert("users", null, contentValues);
@@ -49,19 +49,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Boolean checkEmail(String Email) {
-        SQLiteDatabase MyDB1 = this.getWritableDatabase();
-        Cursor cursor = MyDB1.rawQuery("Select * from users where Email = ?", new String[]{Email});
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select * from users where Email = ?", new String[]{Email});
         if (cursor.getCount() > 0)
             return true;
         else
             return false;
-    }
-    public void updatePassword(String email, String password){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_PASSWORD, password);
-        db.update(TABLE_USER, values, COLUMN_USER_EMAIL+" = ?",new String[] { email });
-        db.close();
     }
 
 
@@ -75,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String getSerialNumber(String Email, String password){
-        SQLiteDatabase MyDB = this.getWritableDatabase();
+        /*SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users where Email = ? and password = ?", new String[] {Email,password});
         cursor.moveToFirst();
         String SIM_serialNumber="";
@@ -85,5 +78,75 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.d("getSerialNumber","Exception");
         }
        return SIM_serialNumber;
+
+*/
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select SIM_serialNumber from users", null);
+        cursor.moveToFirst();
+        String SIM_serialNumber="";
+        try{
+            SIM_serialNumber = cursor.getString(cursor.getColumnIndex("SIM_serialNumber"));
+            Log.d("getSerialNumber",SIM_serialNumber);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","Exception");
+        }
+       return SIM_serialNumber;
     }
+
+    public String getName(){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select Email from users", null);
+        cursor.moveToFirst();
+        String Email="";
+        try{
+            Email = cursor.getString(cursor.getColumnIndex("Email"));
+            Log.d("getSerialNumber","username "+Email);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","username Exception");
+        }
+        return Email;
+    }
+
+    public String getPassword(){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select password from users", null);
+        cursor.moveToFirst();
+        String password="";
+        try{
+            password = cursor.getString(cursor.getColumnIndex("password"));
+            Log.d("getSerialNumber","password "+password);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","password Exception");
+        }
+        return password;
+    }
+
+    public String getUserStatus(){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select status from users", null);
+        cursor.moveToFirst();
+        String status="";
+        try{
+            status = cursor.getString(cursor.getColumnIndex("status"));
+            Log.d("getSerialNumber","status "+status);
+
+        }catch(Exception e){
+            Log.d("getSerialNumber","status Exception");
+        }
+        return status;
+    }
+
+    public void setSerialNumber(String SerialNumber,String Email){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        MyDB.execSQL("UPDATE users\n SET SIM_serialNumber = ? WHERE Email = ?;",new String[] {SerialNumber,Email});
+    }
+
+    public void setStatus(String status,String Email){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        MyDB.execSQL("UPDATE users\n SET status = ? WHERE Email = ?;",new String[] {status,Email});
+    }
+
 }
