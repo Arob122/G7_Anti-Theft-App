@@ -24,15 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password1);
         btnlogin = (Button) findViewById(R.id.btnsignin1);
         DB = new DBHelper(this);
-        forget=findViewById(R.id.forget);
-        forget.setOnClickListener(new View.OnClickListener() {
-            @Override
-         public void onClick(View v) {
-          Intent intent  = new Intent(getApplicationContext(), forgetpassword.class);
-          startActivity(intent);
-          finish(); }
 
-        });
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

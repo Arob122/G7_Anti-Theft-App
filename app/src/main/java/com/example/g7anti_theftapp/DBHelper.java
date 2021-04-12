@@ -18,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_PASSWORD = "password";
     private static final String TABLE_USER = "users";
     private static final String COLUMN_USER_EMAIL = "Email";
-    ;
+
 
     public DBHelper(Context context) {
         super(context, "Login.db", null, 1);

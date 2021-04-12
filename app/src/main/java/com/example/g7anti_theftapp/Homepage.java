@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class Homepage extends AppCompatActivity {
-    Button logoutBtn, perBtn;
+    Button logoutBtn, perBtn,editBtn;
     private static final int BOOT_PERMISSION_CODE = 100;
 
     @Override
@@ -22,6 +22,7 @@ public class Homepage extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
 
         perBtn = findViewById(R.id.perBtn);
+        editBtn=findViewById(R.id.button2);
 
 
         logoutBtn = findViewById(R.id.logoutBtn);
@@ -33,6 +34,15 @@ public class Homepage extends AppCompatActivity {
                 finish();
             }
         });
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ConfirmPassword.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
 
 

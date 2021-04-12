@@ -32,11 +32,4 @@
         android:layout_marginTop="50dp"
         android:layout_below="@+id/password1"/>
 
-    <Button
-        android:id="@+id/forget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="forget your password?"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/btnsignin1"/>
 </RelativeLayout>
