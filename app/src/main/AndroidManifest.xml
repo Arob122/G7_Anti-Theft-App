@@ -26,8 +26,6 @@
         <activity android:name=".Email" />
         <activity android:name=".CheckAuthintication" />
         <activity android:name=".Homepage" />
-        <activity android:name=".SimChangedReceiver" />
-        <activity android:name=".linker"/>
         <activity android:name=".Signup">
 
             <intent-filter>
@@ -66,20 +64,6 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".BootReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-            <intent-filter android:priority="1000">
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
-                <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />
-                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
             </intent-filter>
         </receiver>
     </application>

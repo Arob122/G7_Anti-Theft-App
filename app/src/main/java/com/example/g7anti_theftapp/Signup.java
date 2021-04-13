@@ -55,14 +55,24 @@ public class Signup extends AppCompatActivity {
         signin = (Button) findViewById(R.id.btnsignin);
         DB = new DBHelper(this);
 
+        /*DB.getName();
+        DB.getPassword();
+        DB.getSerialNumber();
+        DB.getUserStatus();*/
         SharedPreferences prefs = getSharedPreferences("SIM_State", MODE_PRIVATE);
-        String EmailOld = prefs.getString("Email", "");//"No name defined" is the default value.
-        String passwordOld = prefs.getString("password", "");//"No name defined" is the default value.
-        boolean lock = prefs.getBoolean("lock", false);//"No name defined" is the default value.
+        String EmailOld = DB.getName();//prefs.getString("username", "");//"No name defined" is the default value.
+        String passwordOld = DB.getPassword();//prefs.getString("password", "");//"No name defined" is the default value.
+        boolean lock = DB.getUserStatus().equals("lock");//prefs.getBoolean("lock", false);//"No name defined" is the default value.
         Log.d("Check", EmailOld);
         Log.d("Check", passwordOld);
 
-        if (!usernameOld.equals("") && !passwordOld.equals("")) {
+        if (lock){
+            Intent intent = new Intent(getApplicationContext(), lockScreen.class);
+            startActivity(intent);
+            finish();
+        }
+
+        if (!EmailOld.equals("") && !passwordOld.equals("")) {
             Toast.makeText(Signup.this, "The user already exist", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);
@@ -105,16 +115,16 @@ public class Signup extends AppCompatActivity {
                             } catch (Exception e) {
                                 Log.d("CheckService class", "Exception");
                             }
-                            Boolean insert = DB.insertData(user, pass, serialNumber);
+                            Boolean insert = DB.insertData(user, pass, serialNumber,"notlock");
                             if (insert == true) {
                                 Toast.makeText(Signup.this, "Registered successfully", Toast.LENGTH_SHORT).show();
 
                                 //Deem
-                                SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
+                                /*SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
                                 editor.putString("serialNumber", serialNumber);
                                 editor.putString("Email", user);
                                 editor.putString("password", pass);
-                                editor.apply();
+                                editor.apply();*/
                                 IntentFilter intentFilter = new IntentFilter();
                                 SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
                                 registerReceiver(simChangedReceiver, intentFilter);

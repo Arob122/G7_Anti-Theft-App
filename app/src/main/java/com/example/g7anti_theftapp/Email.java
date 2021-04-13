@@ -23,7 +23,10 @@ import android.widget.Toast;
 import java.util.List;
 
 public class Email extends AppCompatActivity {
-Button sendEmail;
+    Button sendEmail;
+    public static  double latitude;
+    public static  double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +37,17 @@ Button sendEmail;
         sendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GMailSender.sendMail("nadafjj@gmail.com" , "Test",   " السلام عليكم ورحمة الله وبركاته "+ "\n\n"+"تم بحمد الله عملية ارسال الايميل ابشرك");
-                Toast.makeText(Email.this, " Email sent  ", Toast.LENGTH_LONG).show();
+              /*  GMailSender.sendMail("nadafjj@gmail.com" , "Test",   " السلام عليكم ورحمة الله وبركاته "+ "\n\n"+"تم بحمد الله عملية ارسال الايميل ابشرك");
+                Toast.makeText(Email.this, " Email sent  ", Toast.LENGTH_LONG).show();*/
+
+               // getLocation(getApplicationContext());//هذا بس حطيته `هنا عشان اجرب
             }
         });
 
-        getLocation(getApplicationContext());
+         getLocation(getApplicationContext());
 
     }
+
 
 
     @SuppressLint("MissingPermission")
@@ -58,11 +64,16 @@ Button sendEmail;
 
             Location location2 = locationMangaer.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Log.d("SimStateListener", "inside method 2 location" + location2);
-            double latitude = 0;
-            double longitude = 0;
+            latitude = 0;
+            longitude = 0;
             latitude = loc.getLatitude();
             longitude = loc.getLongitude();
             Log.d("SimStateListener", "inside method 2 location latitude" + latitude + "longitude"+longitude);
+
+
+            String locationLink = "https://maps.google.com/?q=<"+ latitude+">,<"+longitude+">";//nada
+            Log.d("SimStateListener", "locationLink --> " +locationLink );
+            sendMAilTo(locationLink);//nada
 
 
             boolean flag = displayGpsStatus(context);
@@ -77,6 +88,16 @@ Button sendEmail;
         }
 
     }
+
+    private void sendMAilTo(String locationLink) {
+        GMailSender.sendMail("Arob2604@gmail.com" , "Test",   " السلام عليكم ورحمة الله وبركاته "+ "\n\n"+locationLink);
+        Toast.makeText(Email.this, " Email sent  ", Toast.LENGTH_LONG).show();
+    }
+
+
+    //nadafjj@gmail.com
+
+
 
     /*----Method to Check GPS is enable or disable ----- */
     private Boolean displayGpsStatus(Context context) {

@@ -12,6 +12,7 @@ public class lockScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
+        DB= new DBHelper(this);
         /*SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
         editor.putBoolean("lock", true);
         editor.apply();*/

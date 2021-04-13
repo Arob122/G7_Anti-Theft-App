@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
-        MyDB.execSQL("create Table users(Email TEXT primary key, password TEXT,SIM_serialNumber TEXT)");
+        MyDB.execSQL("create Table users(Email TEXT primary key, password TEXT,SIM_serialNumber TEXT,status TEXT )");
     }
 
     @Override
@@ -148,5 +148,14 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         MyDB.execSQL("UPDATE users\n SET status = ? WHERE Email = ?;",new String[] {status,Email});
     }
+
+    public void updatePassword(String email, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_PASSWORD, password);
+        db.update(TABLE_USER, values, COLUMN_USER_EMAIL+" = ?",new String[] { email });
+        db.close();
+    }
+
 
 }
