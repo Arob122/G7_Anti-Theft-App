@@ -47,6 +47,8 @@ public class CheckAuthintication extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                //SEND MAIL
+                getLocation(getApplicationContext());
                 Intent intent = new Intent(CheckAuthintication.this, lockScreen.class);
                 startActivity(intent);
                 finish();
