@@ -72,7 +72,7 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 Log.d("SimStateListener", "Sim State ready");
                 String serialNumber_New = telephoneMgr.getSimSerialNumber();
                 Log.d("SimStateListener", serialNumber_New);
-                Toast.makeText(context, serialNumber_New, Toast.LENGTH_LONG).show();
+               // Toast.makeText(context, serialNumber_New, Toast.LENGTH_LONG).show();
 
                 //getLocation(context);
 
@@ -82,7 +82,7 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 Log.d("SimStateListener","Base "+ SIM_Number);
                 if (!SIM_Number.equals(serialNumber_New)){
                     Log.d("SimStateListener","Changed");
-                    Toast.makeText(context, "تم ملاحظة حالة غير طبيعية يرجى إعادة التسجيل", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Something went wrong, Please re-authenticate", Toast.LENGTH_SHORT).show();
                     Intent intent1 = new Intent(context, CheckAuthintication.class);
                     intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent1);
