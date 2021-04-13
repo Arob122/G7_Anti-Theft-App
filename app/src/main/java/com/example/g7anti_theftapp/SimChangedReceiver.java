@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,8 +21,11 @@ public class SimChangedReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (action.equalsIgnoreCase("android.intent.action.SIM_STATE_CHANGED")) {
+        if (!action.equalsIgnoreCase("android.intent.action.SIM_STATE_CHANGED")) {
             Log.d("SimChangedReceiver", "--> SIM state changed <--");
+            IntentFilter intentFilter = new IntentFilter();
+            SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
+            context.registerReceiver(simChangedReceiver, intentFilter);
         }
         // Checks Sim card State
         Log.d("SimStateListener", "Enter class");
@@ -49,6 +53,9 @@ public class SimChangedReceiver extends BroadcastReceiver {
             Toast.makeText(context, "Enter receiver inside if", Toast.LENGTH_SHORT).show();
             //String serialNumber_New = telephoneMgr.getSimSerialNumber();
             //Log.d("SimStateListener", serialNumber_New);
+            IntentFilter intentFilter = new IntentFilter();
+            SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
+            context.registerReceiver(simChangedReceiver, intentFilter);
         }
 
 

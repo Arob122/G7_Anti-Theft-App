@@ -119,17 +119,11 @@ public class Signup extends AppCompatActivity {
                             if (insert == true) {
                                 Toast.makeText(Signup.this, "Registered successfully", Toast.LENGTH_SHORT).show();
 
-                                //Deem
-                                /*SharedPreferences.Editor editor = getSharedPreferences("SIM_State", MODE_PRIVATE).edit();
-                                editor.putString("serialNumber", serialNumber);
-                                editor.putString("Email", user);
-                                editor.putString("password", pass);
-                                editor.apply();*/
+
                                 IntentFilter intentFilter = new IntentFilter();
                                 SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
                                 registerReceiver(simChangedReceiver, intentFilter);
-                                //end detecting
-                                //Deem
+
                                 Intent intent = new Intent(getApplicationContext(), Homepage.class);
                                 startActivity(intent);
                                 finish();
