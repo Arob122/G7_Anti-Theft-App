@@ -55,6 +55,18 @@ public class Signup extends AppCompatActivity {
         signin = (Button) findViewById(R.id.btnsignin);
         DB = new DBHelper(this);
 
+
+        //Check Permission
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission()) {
+                requestForSpecificPermission();
+            }
+        }
+
+        //End Checking permission
+
+
         /*DB.getName();
         DB.getPassword();
         DB.getSerialNumber();
@@ -245,6 +257,37 @@ public class Signup extends AppCompatActivity {
         return bestLocation;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //granted
+                    Log.d("Permission ","Accepet");
+                } else {
+                    //not granted
+                    Log.d("Permission ","denied");
 
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
+    private void requestForSpecificPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED, Manifest.permission.BROADCAST_STICKY, Manifest.permission.REBOOT, Manifest.permission.READ_PHONE_STATE}, 101);
+    }
+
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            Log.d("Permission ","true");
+            return true;
+        } else {
+            Log.d("Permission ","false");
+            return false;
+        }
+    }
 }
