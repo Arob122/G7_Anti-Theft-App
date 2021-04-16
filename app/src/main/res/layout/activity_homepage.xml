@@ -11,18 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="logout"
             android:layout_marginRight="250dp"
+            android:text="logout"
+            android:visibility="visible"
+            app:backgroundTint="@color/purple_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.049"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.042" />
+            app:layout_constraintVertical_bias="0.042"
+            tools:visibility="visible" />
 
 
         <Button
@@ -30,13 +34,16 @@
             android:id="@+id/button2"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="0dp"
-            android:layout_marginLeft="150dp"
             android:background="@drawable/settings"
             android:fontFamily="sans-serif-light"
             android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:visibility="visible"
+            app:backgroundTint="@color/purple_500"
+            tools:visibility="visible" />
     </LinearLayout>
 
 
@@ -45,12 +52,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ask permission"
+        android:visibility="visible"
+        app:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.124" />
+        app:layout_constraintVertical_bias="0.124"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/textView8"

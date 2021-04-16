@@ -48,5 +48,8 @@
         android:fontFamily="sans-serif-light"
         android:text="send"
         android:textColor="#FFFFFF"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:visibility="visible"
+        app:backgroundTint="@color/purple_500"
+        tools:visibility="visible" />
 </LinearLayout>
