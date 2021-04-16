@@ -21,7 +21,7 @@ public class Homepage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        perBtn = findViewById(R.id.perBtn);
+       // perBtn = findViewById(R.id.perBtn);
         editBtn=findViewById(R.id.button2);
 
 
