@@ -42,7 +42,7 @@
         <activity android:name=".CheckAuthintication"
             android:launchMode="singleTop"/>
         <activity android:name=".Homepage" />
-        <activity android:name=".Signup">
+        <activity android:name=".HomeActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,9 +54,9 @@
         <activity
             android:name=".DBHelper"
             tools:ignore="Instantiatable" />
-        <activity
-            android:name=".HomeActivity"
-            tools:ignore="Instantiatable" />
+        <activity   
+            android:name=".Signup"
+             />
         <activity
             android:name=".SIM_Card"
             tools:ignore="Instantiatable" />
