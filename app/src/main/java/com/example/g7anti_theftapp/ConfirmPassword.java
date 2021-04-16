@@ -63,6 +63,11 @@ public class ConfirmPassword extends AppCompatActivity {
             Toast.makeText(this, "fill all fields ", Toast.LENGTH_LONG).show();
             return;
         }
+        if (value1.length()<=7){
+            Toast.makeText(this, "Password must be greater than 7 characters", Toast.LENGTH_LONG).show();
+
+            return;
+        }
 
         if (!value1.contentEquals(value2)){
             Toast.makeText(this, "password doesn't match", Toast.LENGTH_LONG).show();

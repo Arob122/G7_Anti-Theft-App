@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="250dp"
             android:text="logout"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:backgroundTint="@color/purple_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.042"
-            tools:visibility="invisible" />
+            tools:visibility="visible" />
 
 
         <Button
