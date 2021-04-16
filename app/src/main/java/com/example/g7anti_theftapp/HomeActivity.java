@@ -3,14 +3,17 @@ package com.example.g7anti_theftapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
     Button signup, signin;
+    DBHelper DB;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,19 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+        DB = new DBHelper(this);
+        String EmailOld = DB.getName();//prefs.getString("username", "");//"No name defined" is the default value.
+        String passwordOld = DB.getPassword();//prefs.getString("password", "");//"No name defined" is the default value.
+
+
+
+        if (!EmailOld.equals("") && !passwordOld.equals("")) {
+            Toast.makeText(HomeActivity.this, "The user already exist", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Homepage.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
 
