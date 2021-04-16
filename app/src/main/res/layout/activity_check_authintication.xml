@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        tools:context=".CheckAuthintication">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chackpass"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".CheckAuthintication">
 
-        <EditText
-            android:id="@+id/username1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="User Name"
-            android:layout_marginTop="50dp"/>
 
-        <EditText
-            android:id="@+id/password1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/username1"/>
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="322dp"
+        android:layout_height="86dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:text="Please enter your information"
+        android:textColor="#0D3755"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnsignin1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign in"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/password1"/>
-    </RelativeLayout>
+    <EditText
+        android:id="@+id/username1"
+        android:layout_width="224dp"
+        android:layout_height="69dp"
+        android:ems="15"
+        android:hint="User Name"
+        android:inputType="textPersonName"
+        android:textColor="#523B60"
+        android:textSize="25sp" />
+    <EditText
+        android:id="@+id/password1"
+        android:layout_width="224dp"
+        android:layout_height="69dp"
+        android:ems="15"
+        android:hint="Password"
+        android:inputType="textPersonName"
+        android:textColor="#523B60"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btnsignin1"
+        android:layout_width="129dp"
+        android:layout_height="89dp"
+        android:background="@drawable/shape"
+        android:fontFamily="sans-serif-light"
+        android:text="send"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+</LinearLayout>
