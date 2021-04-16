@@ -151,7 +151,7 @@ public class CheckAuthintication extends AppCompatActivity {
     }
 
     private void sendMAilTo(String locationLink) {
-        GMailSender.sendMail(DB.getName() , "Test",   " السلام عليكم ورحمة الله وبركاته "+ "\n\n"+locationLink);
+        GMailSender.sendMail(DB.getName() , "Warning‼️",   " Your SIM card has been changed and this is the current location of your device "+ "\n\n"+locationLink);
         Toast.makeText(CheckAuthintication.this, " Email sent  ", Toast.LENGTH_LONG).show();
     }
 

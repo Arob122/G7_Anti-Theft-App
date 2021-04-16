@@ -44,7 +44,7 @@ public class Email extends AppCompatActivity {
             }
         });
 
-         getLocation(getApplicationContext());
+        // getLocation(getApplicationContext());
 
     }
 
