@@ -3,6 +3,7 @@ package com.example.g7anti_theftapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +39,9 @@ public class ConfirmPassword extends AppCompatActivity {
         appCompatButtonReset =  findViewById(R.id.RESET);
 
         Intent intent = getIntent();
-        email = intent.getStringExtra("EMAIL");
+        email = databaseHelper.getName();
+                //intent.getStringExtra("EMAIL");
+        Log.d("Reset", "email in reset " + email);
 
         setTitle("Reset password");
 
@@ -76,7 +79,7 @@ public class ConfirmPassword extends AppCompatActivity {
             Toast.makeText(this, "password reset successfully", Toast.LENGTH_SHORT).show();
             emptyInputEditText();
 
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, Homepage.class);
             startActivity(intent);
             finish();
         }

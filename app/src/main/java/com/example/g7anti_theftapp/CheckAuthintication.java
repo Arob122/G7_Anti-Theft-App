@@ -100,6 +100,7 @@ public class CheckAuthintication extends AppCompatActivity {
                     }else{
                         //SEND MAIL
                         getLocation(getApplicationContext());
+                        timer.cancel();//--------> if someone enter pass wronge then timer will be cancel
                         Toast.makeText(CheckAuthintication.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(CheckAuthintication.this, lockScreen.class);
                         startActivity(intent);
