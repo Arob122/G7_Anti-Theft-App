@@ -92,6 +92,8 @@ public class CheckAuthintication extends AppCompatActivity {
                         SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
                         registerReceiver(simChangedReceiver, intentFilter);
 
+                        timer.cancel();//--------> if someone enter pass corectlly then timer will be cancel
+
                         Intent intent  = new Intent(getApplicationContext(), Homepage.class);
                         startActivity(intent);
                         finish();
