@@ -36,7 +36,7 @@
         android:layout_height="69dp"
         android:ems="15"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:textColor="#523B60"
         android:textSize="25sp" />
 
