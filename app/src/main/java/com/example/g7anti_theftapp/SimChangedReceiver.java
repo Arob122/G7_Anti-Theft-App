@@ -21,11 +21,20 @@ public class SimChangedReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        DB = new DBHelper(context);
+        String EmailOld = DB.getName();//prefs.getString("username", "");//"No name defined" is the default value.
+        String passwordOld = DB.getPassword();//prefs.getString("password", "");//"No name defined" is the default value.
+
+
+
+
         if (!action.equalsIgnoreCase("android.intent.action.SIM_STATE_CHANGED")) {
             Log.d("SimChangedReceiver", "--> SIM state changed <--");
-            IntentFilter intentFilter = new IntentFilter();
-            SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
-            context.registerReceiver(simChangedReceiver, intentFilter);
+            if (!EmailOld.equals("") && !passwordOld.equals("")) {
+                IntentFilter intentFilter = new IntentFilter();
+                SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
+                context.registerReceiver(simChangedReceiver, intentFilter);
+            }
         }
         // Checks Sim card State
         Log.d("SimStateListener", "Enter class");
@@ -35,27 +44,28 @@ public class SimChangedReceiver extends BroadcastReceiver {
         //Nada's code
         String ss=telephoneMgr.getSimSerialNumber();
         //Nada's code
-        DB = new DBHelper(context);
 
 
         try{
             SharedPreferences prefs2 = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
             String SIM_Numbertry = DB.getSerialNumber(DB.getName(),DB.getPassword());//prefs2.getString("serialNumber", "00000000000");//"No name defined" is the default value.
             Log.d("SimStateListener","Base "+ SIM_Numbertry);
-            Toast.makeText(context, "Enter receiver inside if"+SIM_Numbertry, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Enter receiver inside if"+SIM_Numbertry, Toast.LENGTH_SHORT).show();
         }catch (Exception e){
-            Toast.makeText(context, "Enter receiver inside exception", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Enter receiver inside exception", Toast.LENGTH_SHORT).show();
 
         }
 
         if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)){
             // +++ Do Operation Here +++
-            Toast.makeText(context, "Enter receiver inside if", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Enter receiver inside if", Toast.LENGTH_SHORT).show();
             //String serialNumber_New = telephoneMgr.getSimSerialNumber();
             //Log.d("SimStateListener", serialNumber_New);
-            IntentFilter intentFilter = new IntentFilter();
-            SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
-            context.registerReceiver(simChangedReceiver, intentFilter);
+            if (!EmailOld.equals("") && !passwordOld.equals("")) {
+                IntentFilter intentFilter = new IntentFilter();
+                SimChangedReceiver simChangedReceiver = new SimChangedReceiver();
+                context.registerReceiver(simChangedReceiver, intentFilter);
+            }
         }
 
 
@@ -79,12 +89,12 @@ public class SimChangedReceiver extends BroadcastReceiver {
                 Log.d("SimStateListener", "Sim State ready");
                 String serialNumber_New = telephoneMgr.getSimSerialNumber();
                 Log.d("SimStateListener", serialNumber_New);
-               // Toast.makeText(context, serialNumber_New, Toast.LENGTH_LONG).show();
+                // Toast.makeText(context, serialNumber_New, Toast.LENGTH_LONG).show();
 
                 //getLocation(context);
 
 
-               // SharedPreferences prefs = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
+                // SharedPreferences prefs = context.getSharedPreferences("SIM_State", MODE_PRIVATE);
                 String SIM_Number =DB.getSerialNumber(DB.getName(),DB.getPassword());// prefs.getString("serialNumber", "00000000000");//"No name defined" is the default value.
                 Log.d("SimStateListener","Base "+ SIM_Number);
                 if (!SIM_Number.equals(serialNumber_New)){
