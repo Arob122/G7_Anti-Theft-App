@@ -19,7 +19,7 @@
             android:layout_marginRight="250dp"
             android:text="logout"
             android:visibility="visible"
-            app:backgroundTint="@color/purple_500"
+            app:backgroundTint="#FF3F51B5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.049"

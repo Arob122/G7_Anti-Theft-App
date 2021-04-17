@@ -50,6 +50,6 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         android:visibility="visible"
-        app:backgroundTint="@color/purple_500"
+        app:backgroundTint="#FF3F51B5"
         tools:visibility="visible" />
 </LinearLayout>

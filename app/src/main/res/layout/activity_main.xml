@@ -74,7 +74,7 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         android:visibility="visible"
-        app:backgroundTint="@color/purple_500"
+        app:backgroundTint="#FF3F51B5"
         tools:visibility="visible" />
 
     <Button
@@ -82,8 +82,8 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_marginLeft="220dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="-60dp"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="25dp"
         android:background="@drawable/shape"
         android:fontFamily="sans-serif-light"
@@ -91,6 +91,6 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         android:visibility="visible"
-        app:backgroundTint="@color/purple_500"
+        app:backgroundTint="#FF3F51B5"
         tools:visibility="visible" />
 </LinearLayout>
