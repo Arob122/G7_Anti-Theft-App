@@ -1,5 +1,5 @@
 # G7_Anti-Theft-App
-
+This app help prevent your phone from begin stolen using Java in Android platform
 
 Refrence 
 #1
